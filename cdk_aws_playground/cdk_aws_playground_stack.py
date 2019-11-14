@@ -1,5 +1,4 @@
-from aws_cdk import core
-from aws_cdk import ec2
+from aws_cdk import core, aws_ec2
 
 
 class CdkAwsPlaygroundStack(core.Stack):
@@ -9,6 +8,11 @@ class CdkAwsPlaygroundStack(core.Stack):
 
         # The code that defines your stack goes here
         # TODO: vpc
+        vpc_main = aws_ec2.Vpc(self, 'vpc-main-pg', 
+            cidr='10.0.0.0/16',
+            
+        )
+
         # subnetConfiguration: [
         #     {
         #     cidrMask: 24,
@@ -26,15 +30,6 @@ class CdkAwsPlaygroundStack(core.Stack):
         #     subnetType: SubnetType.ISOLATED,
         #     }
         #  ]
-        
-        vpc_main = ec2.Vpc(self, 'mainvpc-pg',
-            cidr='10.0.0.0/16',
-            
-        )
-
-
-
-
         # TODO: sagemaker
         # TODO: lambda
         # TODO: api gateway
