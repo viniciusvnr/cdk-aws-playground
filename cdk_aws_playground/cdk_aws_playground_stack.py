@@ -8,28 +8,18 @@ class CdkAwsPlaygroundStack(core.Stack):
 
         # The code that defines your stack goes here
         # TODO: vpc
-        vpc_main = aws_ec2.Vpc(self, 'vpc-main-pg', 
-            cidr='10.0.0.0/16',
-            
-        )
+        vpc_main = aws_ec2.Vpc(self, 'vpc-main-prd', cidr='10.0.0.0/16', max_azs=4)
 
-        # subnetConfiguration: [
-        #     {
-        #     cidrMask: 24,
-        #     name: 'ingress',
-        #     subnetType: SubnetType.PUBLIC,
-        #     },
-        #     {
-        #     cidrMask: 24,
-        #     name: 'application',
-        #     subnetType: SubnetType.PRIVATE,
-        #     },
-        #     {
-        #     cidrMask: 28,
-        #     name: 'rds',
-        #     subnetType: SubnetType.ISOLATED,
-        #     }
-        #  ]
+        # subnet
+        subnet_pub_1 = aws_ec2.PublicSubnet(self, 'subnet-pub-1', cidr_block='10.10.10.0/24',
+                                            vpc_id=vpc_main.vpc_id,
+                                            availability_zone='us-east-1a',
+                                            )
+        subnet_private_1 = aws_ec2.PrivateSubnet(self, 'subnet-priv-1', cidr_block='10.20.20.0/24',
+                                                 vpc_id=vpc_main.vpc_id,
+                                                 availability_zone='us-east-1a'
+                                                 )
+
         # TODO: sagemaker
         # TODO: lambda
         # TODO: api gateway
