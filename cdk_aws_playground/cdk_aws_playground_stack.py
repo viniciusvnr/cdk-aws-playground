@@ -1,6 +1,7 @@
 from aws_cdk import core
 from aws_cdk import ec2
 
+
 class CdkAwsPlaygroundStack(core.Stack):
 
     def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
