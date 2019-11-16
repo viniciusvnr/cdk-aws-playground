@@ -12,13 +12,13 @@
         "id": "cdk-aws-playground",
         "path": "cdk-aws-playground",
         "children": {
-          "vpc-main-pg": {
-            "id": "vpc-main-pg",
-            "path": "cdk-aws-playground/vpc-main-pg",
+          "vpc-main-prd": {
+            "id": "vpc-main-prd",
+            "path": "cdk-aws-playground/vpc-main-prd",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "cdk-aws-playground/vpc-main-pg/Resource",
+                "path": "cdk-aws-playground/vpc-main-prd/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::EC2::VPC",
                   "aws:cdk:cloudformation:props": {
@@ -29,34 +29,34 @@
                     "tags": [
                       {
                         "key": "Name",
-                        "value": "cdk-aws-playground/vpc-main-pg"
+                        "value": "cdk-aws-playground/vpc-main-prd"
                       }
                     ]
                   }
                 }
               },
-              "PublicSubnet1": {
-                "id": "PublicSubnet1",
-                "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet1",
+              "IngressSubnet1": {
+                "id": "IngressSubnet1",
+                "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet1",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet1/Subnet",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet1/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
-                        "cidrBlock": "10.0.0.0/18",
+                        "cidrBlock": "10.0.0.0/24",
                         "vpcId": "${Token[TOKEN.21]}",
                         "availabilityZone": "${Token[TOKEN.18]}",
                         "mapPublicIpOnLaunch": true,
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "cdk-aws-playground/vpc-main-pg/PublicSubnet1"
+                            "value": "cdk-aws-playground/vpc-main-prd/IngressSubnet1"
                           },
                           {
                             "key": "aws-cdk:subnet-name",
-                            "value": "Public"
+                            "value": "Ingress"
                           },
                           {
                             "key": "aws-cdk:subnet-type",
@@ -68,11 +68,11 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet1/Acl"
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet1/Acl"
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet1/RouteTable",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet1/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
@@ -80,7 +80,7 @@
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "cdk-aws-playground/vpc-main-pg/PublicSubnet1"
+                            "value": "cdk-aws-playground/vpc-main-prd/IngressSubnet1"
                           }
                         ]
                       }
@@ -88,7 +88,7 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet1/RouteTableAssociation",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet1/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
@@ -99,19 +99,19 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet1/DefaultRoute",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet1/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
                         "routeTableId": "${Token[TOKEN.32]}",
                         "destinationCidrBlock": "0.0.0.0/0",
-                        "gatewayId": "${Token[TOKEN.71]}"
+                        "gatewayId": "${Token[TOKEN.95]}"
                       }
                     }
                   },
                   "EIP": {
                     "id": "EIP",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet1/EIP",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet1/EIP",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
                       "aws:cdk:cloudformation:props": {
@@ -121,16 +121,16 @@
                   },
                   "NATGateway": {
                     "id": "NATGateway",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet1/NATGateway",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet1/NATGateway",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
                       "aws:cdk:cloudformation:props": {
-                        "allocationId": "${Token[TOKEN.76]}",
+                        "allocationId": "${Token[TOKEN.100]}",
                         "subnetId": "${Token[TOKEN.28]}",
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "cdk-aws-playground/vpc-main-pg/PublicSubnet1"
+                            "value": "cdk-aws-playground/vpc-main-prd/IngressSubnet1"
                           }
                         ]
                       }
@@ -138,28 +138,28 @@
                   }
                 }
               },
-              "PublicSubnet2": {
-                "id": "PublicSubnet2",
-                "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet2",
+              "IngressSubnet2": {
+                "id": "IngressSubnet2",
+                "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet2",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet2/Subnet",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet2/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
-                        "cidrBlock": "10.0.64.0/18",
+                        "cidrBlock": "10.0.1.0/24",
                         "vpcId": "${Token[TOKEN.21]}",
                         "availabilityZone": "${Token[TOKEN.20]}",
                         "mapPublicIpOnLaunch": true,
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "cdk-aws-playground/vpc-main-pg/PublicSubnet2"
+                            "value": "cdk-aws-playground/vpc-main-prd/IngressSubnet2"
                           },
                           {
                             "key": "aws-cdk:subnet-name",
-                            "value": "Public"
+                            "value": "Ingress"
                           },
                           {
                             "key": "aws-cdk:subnet-type",
@@ -171,11 +171,11 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet2/Acl"
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet2/Acl"
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet2/RouteTable",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet2/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
@@ -183,7 +183,7 @@
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "cdk-aws-playground/vpc-main-pg/PublicSubnet2"
+                            "value": "cdk-aws-playground/vpc-main-prd/IngressSubnet2"
                           }
                         ]
                       }
@@ -191,7 +191,7 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet2/RouteTableAssociation",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet2/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
@@ -202,19 +202,19 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet2/DefaultRoute",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet2/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
                         "routeTableId": "${Token[TOKEN.44]}",
                         "destinationCidrBlock": "0.0.0.0/0",
-                        "gatewayId": "${Token[TOKEN.71]}"
+                        "gatewayId": "${Token[TOKEN.95]}"
                       }
                     }
                   },
                   "EIP": {
                     "id": "EIP",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet2/EIP",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet2/EIP",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
                       "aws:cdk:cloudformation:props": {
@@ -224,16 +224,16 @@
                   },
                   "NATGateway": {
                     "id": "NATGateway",
-                    "path": "cdk-aws-playground/vpc-main-pg/PublicSubnet2/NATGateway",
+                    "path": "cdk-aws-playground/vpc-main-prd/IngressSubnet2/NATGateway",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
                       "aws:cdk:cloudformation:props": {
-                        "allocationId": "${Token[TOKEN.80]}",
+                        "allocationId": "${Token[TOKEN.104]}",
                         "subnetId": "${Token[TOKEN.40]}",
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "cdk-aws-playground/vpc-main-pg/PublicSubnet2"
+                            "value": "cdk-aws-playground/vpc-main-prd/IngressSubnet2"
                           }
                         ]
                       }
@@ -241,28 +241,28 @@
                   }
                 }
               },
-              "PrivateSubnet1": {
-                "id": "PrivateSubnet1",
-                "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet1",
+              "in-appSubnet1": {
+                "id": "in-appSubnet1",
+                "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet1",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet1/Subnet",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet1/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
-                        "cidrBlock": "10.0.128.0/18",
+                        "cidrBlock": "10.0.2.0/24",
                         "vpcId": "${Token[TOKEN.21]}",
                         "availabilityZone": "${Token[TOKEN.18]}",
                         "mapPublicIpOnLaunch": false,
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "cdk-aws-playground/vpc-main-pg/PrivateSubnet1"
+                            "value": "cdk-aws-playground/vpc-main-prd/in-appSubnet1"
                           },
                           {
                             "key": "aws-cdk:subnet-name",
-                            "value": "Private"
+                            "value": "in-app"
                           },
                           {
                             "key": "aws-cdk:subnet-type",
@@ -274,11 +274,11 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet1/Acl"
+                    "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet1/Acl"
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet1/RouteTable",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet1/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
@@ -286,7 +286,7 @@
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "cdk-aws-playground/vpc-main-pg/PrivateSubnet1"
+                            "value": "cdk-aws-playground/vpc-main-prd/in-appSubnet1"
                           }
                         ]
                       }
@@ -294,7 +294,7 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet1/RouteTableAssociation",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet1/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
@@ -305,40 +305,40 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet1/DefaultRoute",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet1/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
                         "routeTableId": "${Token[TOKEN.56]}",
                         "destinationCidrBlock": "0.0.0.0/0",
-                        "natGatewayId": "${Token[TOKEN.78]}"
+                        "natGatewayId": "${Token[TOKEN.102]}"
                       }
                     }
                   }
                 }
               },
-              "PrivateSubnet2": {
-                "id": "PrivateSubnet2",
-                "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet2",
+              "in-appSubnet2": {
+                "id": "in-appSubnet2",
+                "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet2",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet2/Subnet",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet2/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
-                        "cidrBlock": "10.0.192.0/18",
+                        "cidrBlock": "10.0.3.0/24",
                         "vpcId": "${Token[TOKEN.21]}",
                         "availabilityZone": "${Token[TOKEN.20]}",
                         "mapPublicIpOnLaunch": false,
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "cdk-aws-playground/vpc-main-pg/PrivateSubnet2"
+                            "value": "cdk-aws-playground/vpc-main-prd/in-appSubnet2"
                           },
                           {
                             "key": "aws-cdk:subnet-name",
-                            "value": "Private"
+                            "value": "in-app"
                           },
                           {
                             "key": "aws-cdk:subnet-type",
@@ -350,11 +350,11 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet2/Acl"
+                    "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet2/Acl"
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet2/RouteTable",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet2/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
@@ -362,7 +362,7 @@
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "cdk-aws-playground/vpc-main-pg/PrivateSubnet2"
+                            "value": "cdk-aws-playground/vpc-main-prd/in-appSubnet2"
                           }
                         ]
                       }
@@ -370,7 +370,7 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet2/RouteTableAssociation",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet2/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
@@ -381,13 +381,141 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "cdk-aws-playground/vpc-main-pg/PrivateSubnet2/DefaultRoute",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-appSubnet2/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
                         "routeTableId": "${Token[TOKEN.68]}",
                         "destinationCidrBlock": "0.0.0.0/0",
-                        "natGatewayId": "${Token[TOKEN.82]}"
+                        "natGatewayId": "${Token[TOKEN.106]}"
+                      }
+                    }
+                  }
+                }
+              },
+              "in-dbSubnet1": {
+                "id": "in-dbSubnet1",
+                "path": "cdk-aws-playground/vpc-main-prd/in-dbSubnet1",
+                "children": {
+                  "Subnet": {
+                    "id": "Subnet",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-dbSubnet1/Subnet",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                      "aws:cdk:cloudformation:props": {
+                        "cidrBlock": "10.0.4.0/28",
+                        "vpcId": "${Token[TOKEN.21]}",
+                        "availabilityZone": "${Token[TOKEN.18]}",
+                        "mapPublicIpOnLaunch": false,
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "cdk-aws-playground/vpc-main-prd/in-dbSubnet1"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-name",
+                            "value": "in-db"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-type",
+                            "value": "Isolated"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "Acl": {
+                    "id": "Acl",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-dbSubnet1/Acl"
+                  },
+                  "RouteTable": {
+                    "id": "RouteTable",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-dbSubnet1/RouteTable",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": "${Token[TOKEN.21]}",
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "cdk-aws-playground/vpc-main-prd/in-dbSubnet1"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "RouteTableAssociation": {
+                    "id": "RouteTableAssociation",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-dbSubnet1/RouteTableAssociation",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": "${Token[TOKEN.80]}",
+                        "subnetId": "${Token[TOKEN.76]}"
+                      }
+                    }
+                  }
+                }
+              },
+              "in-dbSubnet2": {
+                "id": "in-dbSubnet2",
+                "path": "cdk-aws-playground/vpc-main-prd/in-dbSubnet2",
+                "children": {
+                  "Subnet": {
+                    "id": "Subnet",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-dbSubnet2/Subnet",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                      "aws:cdk:cloudformation:props": {
+                        "cidrBlock": "10.0.4.16/28",
+                        "vpcId": "${Token[TOKEN.21]}",
+                        "availabilityZone": "${Token[TOKEN.20]}",
+                        "mapPublicIpOnLaunch": false,
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "cdk-aws-playground/vpc-main-prd/in-dbSubnet2"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-name",
+                            "value": "in-db"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-type",
+                            "value": "Isolated"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "Acl": {
+                    "id": "Acl",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-dbSubnet2/Acl"
+                  },
+                  "RouteTable": {
+                    "id": "RouteTable",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-dbSubnet2/RouteTable",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": "${Token[TOKEN.21]}",
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "cdk-aws-playground/vpc-main-prd/in-dbSubnet2"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "RouteTableAssociation": {
+                    "id": "RouteTableAssociation",
+                    "path": "cdk-aws-playground/vpc-main-prd/in-dbSubnet2/RouteTableAssociation",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": "${Token[TOKEN.92]}",
+                        "subnetId": "${Token[TOKEN.88]}"
                       }
                     }
                   }
@@ -395,14 +523,14 @@
               },
               "IGW": {
                 "id": "IGW",
-                "path": "cdk-aws-playground/vpc-main-pg/IGW",
+                "path": "cdk-aws-playground/vpc-main-prd/IGW",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::EC2::InternetGateway",
                   "aws:cdk:cloudformation:props": {
                     "tags": [
                       {
                         "key": "Name",
-                        "value": "cdk-aws-playground/vpc-main-pg"
+                        "value": "cdk-aws-playground/vpc-main-prd"
                       }
                     ]
                   }
@@ -410,14 +538,61 @@
               },
               "VPCGW": {
                 "id": "VPCGW",
-                "path": "cdk-aws-playground/vpc-main-pg/VPCGW",
+                "path": "cdk-aws-playground/vpc-main-prd/VPCGW",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::EC2::VPCGatewayAttachment",
                   "aws:cdk:cloudformation:props": {
                     "vpcId": "${Token[TOKEN.21]}",
-                    "internetGatewayId": "${Token[TOKEN.71]}"
+                    "internetGatewayId": "${Token[TOKEN.95]}"
                   }
                 }
+              }
+            }
+          },
+          "sageMakerdumps": {
+            "id": "sageMakerdumps",
+            "path": "cdk-aws-playground/sageMakerdumps",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "cdk-aws-playground/sageMakerdumps/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketEncryption": {
+                      "serverSideEncryptionConfiguration": [
+                        {
+                          "serverSideEncryptionByDefault": {
+                            "sseAlgorithm": "aws:kms"
+                          }
+                        }
+                      ]
+                    },
+                    "bucketName": "sagemakerdumps",
+                    "corsConfiguration": "<unresolved-lazy>",
+                    "lifecycleConfiguration": "<unresolved-lazy>",
+                    "metricsConfigurations": "<unresolved-lazy>",
+                    "publicAccessBlockConfiguration": {
+                      "restrictPublicBuckets": true
+                    }
+                  }
+                }
+              },
+              "Notifications": {
+                "id": "Notifications",
+                "path": "cdk-aws-playground/sageMakerdumps/Notifications"
+              }
+            }
+          },
+          "SMInstanceData": {
+            "id": "SMInstanceData",
+            "path": "cdk-aws-playground/SMInstanceData",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::SageMaker::NotebookInstance",
+              "aws:cdk:cloudformation:props": {
+                "instanceType": "ml.t2.medium",
+                "roleArn": "sagemakerarn",
+                "subnetId": "${Token[TOKEN.52]}"
               }
             }
           }

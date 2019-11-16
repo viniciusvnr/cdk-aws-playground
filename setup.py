@@ -1,9 +1,7 @@
 import setuptools
 
-
 with open("README.md") as fp:
     long_description = fp.read()
-
 
 setuptools.setup(
     name="cdk_aws_playground",
@@ -20,7 +18,10 @@ setuptools.setup(
 
     install_requires=[
         "aws-cdk.core",
-        "aws_cdk.aws_ec2"
+        "aws_cdk.aws_ec2",
+        "aws_cdk.aws_s3",
+        "aws_cdk.aws_sagemaker",
+        "aws_cdk.aws_iam"
     ],
 
     python_requires=">=3.6",
