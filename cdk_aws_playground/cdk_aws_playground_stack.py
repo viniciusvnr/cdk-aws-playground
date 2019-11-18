@@ -36,7 +36,7 @@ class CdkAwsPlaygroundStack(core.Stack):
                                         block_public_access=_s3.BlockPublicAccess(restrict_public_buckets=True))
         # TODO: lambda
         lambda_function_with_code = _lambda.Function(self, id='lambda_function1',
-                                                     code=_lambda.Code.asset('.'),
+                                                     code=_lambda.Code.asset('lambda'),
                                                      runtime=_lambda.Runtime.PYTHON_3_7,
                                                      handler='lambda-handler.handler')
         # TODO: api gateway
