@@ -31,16 +31,19 @@ class CdkAwsPlaygroundStack(core.Stack):
                             )
 
         # TODO: lambda_s3_bucket
-        lambda_code_bucket = _s3.Bucket(self, 'lambda_code', bucket_name='lambda-code',
+        lambda_code_bucket = _s3.Bucket(self, 'lambdacode', bucket_name='lambda-code-data-2019',
                                         encryption=_s3.BucketEncryption.KMS_MANAGED,
                                         block_public_access=_s3.BlockPublicAccess(restrict_public_buckets=True))
         # TODO: lambda
         lambda_function_with_code = _lambda.Function(self, id='lambda_function1',
                                                      code=_lambda.Code.asset('lambda'),
                                                      runtime=_lambda.Runtime.PYTHON_3_7,
-                                                     handler='lambda-handler.handler')
-        # TODO: api gateway
-        base_api = _apigw.LambdaIntegration(handler=lambda_function_with_code, proxy=False)
+                                                     handler='lambda-handler.handler',
+                                                     vpc=vpc_main,
+                                                     vpc_subnets=_ec2.SubnetSelection(
+                                                         subnet_type=_ec2.SubnetType.PRIVATE))
+        # TODO: api gatewaycd
+        api_gtw_lambda = _apigw.LambdaRestApi(self, 'function1Api', handler=lambda_function_with_code)
 
         # lambda code from bucket
         # lambda_function_s3_code = _lambda.Function(self, id='lambda_function1',
