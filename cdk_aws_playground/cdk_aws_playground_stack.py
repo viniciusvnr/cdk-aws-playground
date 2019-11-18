@@ -3,6 +3,7 @@ from aws_cdk import (
     aws_s3 as _s3,
     aws_ec2 as _ec2,
     aws_lambda as _lambda,
+    aws_apigateway as _apigw,
     aws_iam as _iam,
     core)
 
@@ -36,7 +37,10 @@ class CdkAwsPlaygroundStack(core.Stack):
         # TODO: lambda
         lambda_function_with_code = _lambda.Function(self, id='lambda_function1',
                                                      code=_lambda.Code.asset('.'),
-                                                     runtime=_lambda.Runtime.PYTHON_3_7, handler='lambda-handler.handler')
+                                                     runtime=_lambda.Runtime.PYTHON_3_7,
+                                                     handler='lambda-handler.handler')
+        # TODO: api gateway
+        base_api = _apigw.LambdaIntegration(handler=lambda_function_with_code, proxy=False)
 
         # lambda code from bucket
         # lambda_function_s3_code = _lambda.Function(self, id='lambda_function1',
@@ -47,8 +51,6 @@ class CdkAwsPlaygroundStack(core.Stack):
         # bucket = _s3.Bucket(self, 'sageMaker_dumps', bucket_name='sagemaker-dumps',
         #                     encryption=_s3.BucketEncryption.KMS_MANAGED,
         #                     block_public_access=_s3.BlockPublicAccess(restrict_public_buckets=True))
-
-        # TODO: api gateway
 
         # TODO: sagemaker
         # subnet_inapp_id = (vpc_main.select_subnets(subnet_name='in-app')).subnet_ids
