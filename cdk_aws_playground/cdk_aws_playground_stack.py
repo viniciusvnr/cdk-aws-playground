@@ -20,7 +20,8 @@ class CdkAwsPlaygroundStack(core.Stack):
 
         # TODO: criar security groups do publico pra privada e da privada pra db
 
-        vpc_main = _ec2.Vpc(self, 'vpc-main-prd', cidr='10.0.0.0/16', max_azs=2,
+        vpc_main = _ec2.Vpc(self,
+                            'vpc-main-prd', cidr='10.0.0.0/16', max_azs=2,
                             subnet_configuration=[
                                 _ec2.SubnetConfiguration(name='Ingress', subnet_type=_ec2.SubnetType.PUBLIC,
                                                          cidr_mask=24),
@@ -30,18 +31,51 @@ class CdkAwsPlaygroundStack(core.Stack):
                                                          cidr_mask=28)]
                             )
 
+        # Security Group Basics
+        ipv4_peer = _ec2.Peer.any_ipv4()
+        https_port = _ec2.Port(protocol=_ec2.Protocol.TCP, from_port=443, to_port=443,
+                               string_representation='HTTPS-PORT')
+
+        # Security Groups
+        sg_lambda_function1 = _ec2.SecurityGroup(self,
+                                                 id='lambda-function1', vpc=vpc_main,
+                                                 security_group_name='lambda-function1',
+                                                 description='SecurityGroup for LambdaFunction1',
+                                                 allow_all_outbound=True
+                                                 )
+
+        sg_lambda_function1.add_ingress_rule(peer=ipv4_peer, connection=https_port)
+
+        # Tags
+        core.Tag.add(sg_lambda_function1, key='Name', value='lambda-function1-SG')
+
+        # TODO: Necessidades em ordem de prioridade
+        # 1- Buckets s3:
+        # sagemaker-dumps
+        # datascience
+        # 2- Sagemaker Notebook Instance (conectando no s3 bucket dedicado)
+        # 3- Lambda Function
+        # 4- API Gateway
+        # 5- Infra para Airflow
+
         # TODO: lambda_s3_bucket
-        lambda_code_bucket = _s3.Bucket(self, 'lambdacode', bucket_name='lambda-code-data-2019',
+        lambda_code_bucket = _s3.Bucket(self,
+                                        'lambdacode', bucket_name='lambda-code-data-2019',
                                         encryption=_s3.BucketEncryption.KMS_MANAGED,
-                                        block_public_access=_s3.BlockPublicAccess(restrict_public_buckets=True))
+                                        block_public_access=_s3.BlockPublicAccess(restrict_public_buckets=True)
+                                        )
+
         # TODO: lambda
-        lambda_function_with_code = _lambda.Function(self, id='lambda_function1',
+        lambda_function_with_code = _lambda.Function(self,
+                                                     id='lambda_function1',
                                                      code=_lambda.Code.asset('lambda'),
                                                      runtime=_lambda.Runtime.PYTHON_3_7,
                                                      handler='lambda-handler.handler',
                                                      vpc=vpc_main,
                                                      vpc_subnets=_ec2.SubnetSelection(
-                                                         subnet_type=_ec2.SubnetType.PRIVATE))
+                                                         subnet_type=_ec2.SubnetType.PRIVATE),
+                                                     security_group=sg_lambda_function1
+                                                     )
         # TODO: api gatewaycd
         api_gtw_lambda = _apigw.LambdaRestApi(self, 'function1Api', handler=lambda_function_with_code)
 
