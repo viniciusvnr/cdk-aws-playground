@@ -1,0 +1,182 @@
+        "OptionSettings": [
+
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "VPCId",
+            "Value": {
+              "Fn::ImportValue": "flintapp-vpc-production"
+            }
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "Subnets",
+            "Value": {
+              "Fn::Join": [
+                ",",
+                [
+                  {
+                    "Fn::ImportValue": "PrivateSubnetAZ1-production"
+                  },
+                  {
+                    "Fn::ImportValue": "PrivateSubnetAZ2-production"
+                  },
+                  {
+                    "Fn::ImportValue": "PrivateSubnetAZ3-production"
+                  },
+                  {
+                    "Fn::ImportValue": "PrivateSubnetAZ4-production"
+                  }
+                ]
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "ELBSubnets",
+            "Value": {
+              "Fn::Join": [
+                ",",
+                [
+                  {
+                    "Fn::ImportValue": "PublicSubnetAZ1-production"
+                  },
+                  {
+                    "Fn::ImportValue": "PublicSubnetAZ2-production"
+                  }
+                ]
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:environment:process:default",
+            "OptionName": "StickinessEnabled",
+            "Value": true
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:environment:process:default",
+            "OptionName": "HealthCheckPath",
+            "Value": "/health"
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "AssociatePublicIpAddress",
+            "Value": false
+          },
+          {
+            "Namespace": "aws:elbv2:loadbalancer",
+            "OptionName": "SecurityGroups",
+            "Value": {
+              "Ref": "ElasticBeanstalkSecurityGroup"
+            }
+          },
+          {
+            "Namespace": "aws:elbv2:listener:443",
+            "OptionName": "ListenerEnabled",
+            "Value": true
+          },
+          {
+            "Namespace": "aws:elbv2:listener:443",
+            "OptionName": "Protocol",
+            "Value": "HTTPS"
+          },
+          {
+            "Namespace": "aws:elbv2:listener:443",
+            "OptionName": "SSLCertificateArns",
+            "Value": "arn:aws:acm:us-east-1:505047608760:certificate/acc8490e-ad84-412f-9f26-1112c8164e02"
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:hostmanager",
+            "OptionName": "LogPublicationControl",
+            "Value": true
+          }
+        ],
+
+
+############
+
+
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Serverless AWS Elastic Beanstalk to payments-api-production Application",
+  "Resources": {
+    "ElasticBeanstalkApp": {
+      "Type": "AWS::ElasticBeanstalk::Application",
+      "Properties": {
+        "Description": "AWS Elastic Beanstalk for payments-api-production",
+        "ApplicationName": "payments-api-production"
+      }
+    },
+    "ElasticBeanstalkConfigTemplate": {
+      "Type": "AWS::ElasticBeanstalk::ConfigurationTemplate",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "ElasticBeanstalkApp"
+        },
+        "Description": "AWS ElasticBeanstalk Frontend Configuration Template",
+
+        "SolutionStackName": "64bit Amazon Linux 2018.03 v2.8.6 running Java 8"
+      }
+    },
+    "ElasticBeanstalkEnv": {
+      "Type": "AWS::ElasticBeanstalk::Environment",
+      "Properties": {
+        "CNAMEPrefix": "payments-api-production-production",
+        "EnvironmentName": "payments-api-production",
+        "ApplicationName": {
+          "Ref": "ElasticBeanstalkApp"
+        },
+        "Description": "AWS ElasticBeanstalk payments-api-production Environment",
+        "Tier": {
+          "Name": "WebServer",
+          "Type": "Standard"
+        },
+        "TemplateName": {
+          "Ref": "ElasticBeanstalkConfigTemplate"
+        }
+      }
+    },
+    "ElasticBeanstalkSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupName": "securitygroup-payments-api-production-production",
+        "GroupDescription": "Limits security group Ingress traffic payments-api-production",
+        "VpcId": {
+          "Fn::ImportValue": "flintapp-vpc-production"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 443,
+            "ToPort": 443,
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "payments-api-production-production"
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "ServerlessDeploymentBucketName": {
+      "Value": "flintapp-iaac-artifacts"
+    }
+  },
+  "Conditions": {
+    "IsProductionEnvironment": {
+      "Fn::Equals": [
+        "production",
+        "production"
+      ]
+    }
+  }
+}
