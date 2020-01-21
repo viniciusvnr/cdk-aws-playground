@@ -41,7 +41,7 @@ class DynamoDb:
 # {
 # 	"id": "fb6915fb-9f84-4df7-a983-5f1c43666944", <string>
 # 	"createdAt": "2020-01-16T15:40:41Z", <string>
-# 	"appName": "Payments-api", <string>
+# 	"appName": "Application-api", <string>
 # 	"environment": "staging", <string>
 # 	"httpStatus": 200, <number>
 # 	"success": true, <bool>

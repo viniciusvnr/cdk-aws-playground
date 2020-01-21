@@ -1,16 +1,34 @@
+# Overview
 
-# Welcome to your CDK Python project!
+This is a project for infrastructure Python development with CDK.
 
-This is a blank project for Python development with CDK.
+---
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+# Stacks
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the .env
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+### Lambda-New-Relic-Deployment-Marker-Stack
+
+Lambda Function to mark deployments on new relic APM for the specified application.
+
+Code Pipeline User Parameters Object:
+
+```json
+{
+  "FunctionVars": {
+    "APP_ID": "219510000",
+    "API_KEY": "8cf3f63a8fa02aa2c7898ed52aab7696dc000000",
+    "APP_NAME": "spyder-java-staging",
+    "GIT_REPO": "payops-cdk"
+  }
+}
+```
+---
+
+### Lambda-Pipeline-Alerts-Stack
+
+Lambda Function to alert if a CodePipeline Pipeline Execution State Change to Failed.
+
+---
 
 To manually create a virtualenv on MacOS and Linux:
 

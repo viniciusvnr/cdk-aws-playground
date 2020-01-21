@@ -10,8 +10,8 @@ def lambda_handler(event, context):
     """
     event to be sent to lambda:
     {
-        "url": "https://payments-api-staging.growpay.me/health",
-        "appName": "Payments-api",
+        "url": "https://xxx/health",
+        "appName": "application-name",
         "environment": "staging",
         "isMaintenance": false
     }
@@ -54,8 +54,8 @@ def lambda_handler(event, context):
 # --- TEST ---
 #
 # lambda_event = json.dumps({
-#     "url": "https://payments-api-staging.growpay.me/health",
-#     "appName": "Payments-api",
+#     "url": "https://www.google.com",
+#     "appName": "application-api",
 #     "environment": "staging",
 #     "isMaintenance": False
 # })

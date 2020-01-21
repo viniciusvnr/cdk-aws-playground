@@ -23,6 +23,17 @@ def get_job_name(job):
 
 
 def lambda_handler(event, context):
+    """
+    Event to be sent as Code Pipeline User Parameters:
+    {
+        "FunctionVars": {
+            "APP_ID": "<new relic app id>",
+            "API_KEY": "<new relic api key>",
+            "APP_NAME": "<new relic APP_NAME>",
+            "GIT_REPO": "<gitHub Repo Name>"
+        }
+    }
+    """
 
     print('Function Executing')
     print("Event Passed to Handler: " + json.dumps(event))
@@ -32,6 +43,7 @@ def lambda_handler(event, context):
     decoded_parameters = json.loads(user_parameters)
 
     # set function variables
+    github_org = 'viniciusvnr'
     new_relic_app_id = decoded_parameters['FunctionVars']['APP_ID']
     new_relic_api_key = decoded_parameters['FunctionVars']['API_KEY']
     git_repo = decoded_parameters['FunctionVars']['GIT_REPO']
@@ -45,7 +57,7 @@ def lambda_handler(event, context):
     body = {
         "deployment": {
             "revision": revision,
-            "changelog": f'https://github.com/flintapp/{git_repo}/commit/{change_log}',
+            "changelog": f'https://github.com/{github_org}/{git_repo}/commit/{change_log}',
             "description": description,
         }
     }
