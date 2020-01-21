@@ -41,6 +41,7 @@ aws-cdk.aws-stepfunctions==1.19.0
 aws-cdk.core==1.16.3
 aws-cdk.cx-api==1.16.3
 aws-cdk.region-info==1.16.3
+aws-cdk.aws_dynamodb
 awscli==1.16.283
 black==19.10b0
 boto==2.49.0
@@ -69,4 +70,3 @@ typed-ast==1.4.0
 typing-extensions==3.7.4.1
 urllib3==1.25.6
 virtualenv==16.7.7
-aws-cdk.aws-sagemaker==1.16.3

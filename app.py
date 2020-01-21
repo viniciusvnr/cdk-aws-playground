@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
 from aws_cdk import core
-from cdk_aws_playground.cdk_aws_playground_stack import CdkAwsPlaygroundStack
 from stacks.lambda_new_relic_deployment_marker import LambdaNewRelicDeploymentStack
 from stacks.lambda_pipeline_alerts import LambdaPipelineAlertsStack
 from stacks.payments_streamer.stack_infra_payments_streamer import PaymentsStreamerStack
+from stacks.availability_report.lambdas_availability_report import AvailabilityReportsStack
+
 
 app = core.App()
 
@@ -25,6 +25,12 @@ PaymentsStreamerStack(
     app, 'Payments-Streamer-Infra-Stack', env={'region': 'us-east-1'},
     tags={'ManageBy': 'payops-cdk'},
     description='CDK Stack: Payments Streamer Application Infrastructure'
+)
+
+AvailabilityReportsStack(
+    app, 'AvailabilityReports-Stack', env={'region': 'us-east-1'},
+    tags={'ManageBy': 'payops-cdk'},
+    description='CDK Stack: Get application status for generating Availability reports'
 )
 
 app.synth()
