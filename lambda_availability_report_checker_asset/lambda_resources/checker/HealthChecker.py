@@ -1,8 +1,8 @@
 import json
 import uuid
 import datetime
-import requests
-from lambda_availabilitty_report_checker_asset.lambda_resources.logger import Logger
+from botocore.vendored import requests
+from lambda_resources.logger import Logger
 
 
 class HealthChecker:

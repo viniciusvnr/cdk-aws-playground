@@ -1,14 +1,10 @@
 import boto3
-from lambda_availabilitty_report_checker_asset.lambda_resources.logger import Logger
 
 
 class DynamoDb:
 
-    def __init__(self, access_key_id, secret_access_key, endpoint=None):
-        self.dynamo_db = boto3.resource(
-            'dynamodb', aws_access_key_id=access_key_id,
-            aws_secret_access_key=secret_access_key,
-            endpoint_url=endpoint)
+    def __init__(self, endpoint=None):
+        self.dynamo_db = boto3.resource('dynamodb', endpoint_url=endpoint)
 
     def addItem(self, table, item):
         self.table = table
@@ -19,19 +15,21 @@ class DynamoDb:
 
         return response
 
-    def _createTable(self, table: str, key_schema: list, attr_definitions: list, prov_throughput: dict):
-        self.table = table
-        self.key_schema = key_schema
-        self.attr_definitions = attr_definitions
-        self.prov_throughput = prov_throughput
-
-        create_table = self.dynamo_db.create_table(
-            TableName=self.table,
-            KeySchema=self.key_schema,
-            AttributeDefinitions=self.attr_definitions,
-            ProvisionedThroughput=self.prov_throughput
-        )
-        return create_table
+# to test locally
+#
+# def _createTable(self, table: str, key_schema: list, attr_definitions: list, prov_throughput: dict):
+#     #     self.table = table
+#     #     self.key_schema = key_schema
+#     #     self.attr_definitions = attr_definitions
+#     #     self.prov_throughput = prov_throughput
+#     #
+#     #     create_table = self.dynamo_db.create_table(
+#     #         TableName=self.table,
+#     #         KeySchema=self.key_schema,
+#     #         AttributeDefinitions=self.attr_definitions,
+#     #         ProvisionedThroughput=self.prov_throughput
+#     #     )
+#     #     return create_table
 
 # to run dynamo local
 # docker run -p 8000:8000 amazon/dynamodb-local
@@ -41,7 +39,7 @@ class DynamoDb:
 # {
 # 	"id": "fb6915fb-9f84-4df7-a983-5f1c43666944", <string>
 # 	"createdAt": "2020-01-16T15:40:41Z", <string>
-# 	"appName": "Application-api", <string>
+# 	"appName": "Payments-api", <string>
 # 	"environment": "staging", <string>
 # 	"httpStatus": 200, <number>
 # 	"success": true, <bool>
